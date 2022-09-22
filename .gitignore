@@ -127,3 +127,13 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#MacOS
+.DS_Store
+
+#Large files 
+.jar
+.csv
+
+# credentials
+credentials.py
