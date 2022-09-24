@@ -6,6 +6,12 @@ Hate speech detector for Spiced Academy Data Science class (ginger-pipeline)
 
 ## References
 
+- [Multi-Class Text Classification Model Comparison and Selection](https://towardsdatascience.com/multi-class-text-classification-model-comparison-and-selection-5eb066197568#:~:text=Linear%20Support%20Vector%20Machine%20is,the%20best%20text%20classification%20algorithms.)
+
+- [Text Classifiers in Machine Learning: A Practical Guide](https://levity.ai/blog/text-classifiers-in-machine-learning-a-practical-guide)
+
+- [Text Classification: All Tips and Tricks from 5 Kaggle Competitions](https://neptune.ai/blog/text-classification-tips-and-tricks-kaggle-competitions)
+
 - [Deep NLP for hate speech detection](https://medium.com/isiway-tech/deep-nlp-for-hate-speech-detection-25eed707997)
 
 - [Hate Speech Dataset from a White Supremacy Forum](https://arxiv.org/pdf/1809.04444.pdf)
