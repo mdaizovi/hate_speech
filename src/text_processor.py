@@ -110,11 +110,18 @@ class TextPreprocessor:
         filtered_text = ' '.join(filtered_tokens)
         return filtered_text
 
-    def normalize_corpus(self, corpus, html_stripping=True, contraction_expansion=True,
+    def normalize_corpus(self, input_corpus, html_stripping=True, contraction_expansion=True,
                          accented_char_removal=True, text_lower_case=True,
                          stem_text=False, text_lemmatization=True,
                          special_char_removal=True,
                          stopword_removal=True, remove_digits=True):
+
+        # if corpus is a str, return str
+        # if a list of strs, return list of strs
+        if isinstance(input_corpus, str):
+            corpus = [input_corpus]
+        elif isinstance(input_corpus, list):
+            corpus = input_corpus
 
         normalized_corpus = []
         # normalize each document in the corpus
@@ -156,7 +163,14 @@ class TextPreprocessor:
 
             normalized_corpus.append(doc)
 
-        return normalized_corpus
+        # if corpus is a str, return str
+        # if a list of strs, return list of strs
+        if isinstance(input_corpus, str):
+            output_corpus = normalized_corpus[0]
+        elif isinstance(input_corpus, list):
+            output_corpus = normalized_corpus
+
+        return output_corpus
 
     def string_has_profanity(self, s):
         """
