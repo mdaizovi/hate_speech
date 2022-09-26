@@ -13,8 +13,15 @@ from nltk.tokenize.toktok import ToktokTokenizer
 
 import spacy
 # You can now load the package via spacy.load('en_core_web_sm')
+
+# nltk.download('stopwords')
+nltk.download('stopwords')
+stopword_list = nltk.corpus.stopwords.words('english')
+stopword_list.remove('no')
+stopword_list.remove('not')
+
 #nlp = spacy.load('en_core', parse=True, tag=True, entity=True)
-nlp = spacy.load('en_core_web_sm', parse=True, tag=True, entity=True)
+nlp = spacy.load('en_core_web_sm')
 
 """
 Handles the cleaning of raw text before feeding through model,
@@ -22,9 +29,6 @@ as well as presentation of text afterwards (ie censoring offensive words)
 """
 
 tokenizer = ToktokTokenizer()
-stopword_list = nltk.corpus.stopwords.words('english')
-stopword_list.remove('no')
-stopword_list.remove('not')
 
 
 class TextPreprocessor:
