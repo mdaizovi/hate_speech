@@ -1,17 +1,27 @@
 import csv
+from datetime import datetime
 from functools import wraps
+import pytz
 import time
+
+tz = pytz.timezone('Europe/Berlin')
 
 
 def timeit(func):
     @wraps(func)
     def timeit_wrapper(*args, **kwargs):
         start_time = time.perf_counter()
+        now = datetime.now(tz).strftime("%H:%M:%S")
+        try:
+            print(f"\nStarting {func.__name__} at {now}")
+        except:
+            print(f"\nStarting at {now}")
+
         result = func(*args, **kwargs)
         end_time = time.perf_counter()
         total_time = end_time - start_time
 
-        base_str = f'\nFunction {func.__name__}{args} {kwargs} Took '
+        base_str = f'\n*-Function {func.__name__}\n{args}\n{kwargs}\nTook '
         if total_time >= 60:
             if total_time >= 60*60:
                 hours, mins = divmod(total_time, 60*60)
@@ -20,7 +30,7 @@ def timeit(func):
                 mins, secs = divmod(total_time, 60)
                 full_str = base_str + f'{int(mins)} mins {int(secs)} seconds'
         else:
-            full_str = base_str + f'{total_time:.2f} seconds\n'
+            full_str = base_str + f'{total_time:.2f} seconds-*\n\n'
 
         print(full_str)
         return result

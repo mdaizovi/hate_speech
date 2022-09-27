@@ -1,15 +1,19 @@
+import numpy as np
 import pandas as pd
 
 from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import MultinomialNB
+
+from settings import DATA_DIR
+from analyzer_base import AnalyzerBaseClass
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 """
 Base Class for analyzing tezt.
 Analyzers for specific datasets will inherit and subclass as necessary. 
 """
-
-from settings import DATA_DIR
-from analyzer_base import AnalyzerBaseClass
-from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 class KaggleAnalyzer(AnalyzerBaseClass):
@@ -45,5 +49,32 @@ class KaggleAnalyzer(AnalyzerBaseClass):
 ka = KaggleAnalyzer(train_filepath="kaggle/train.csv",
                     test_filepath="kaggle/test.csv")
 ka.tt_split()
-ka.do_logistic_regression(
-    C=10, penalty='l2', solver='liblinear', random_state=4)
+
+# ka.run_model(model_class=LogisticRegression)
+# ka.evaluate_model()
+# I prob don't need to do this twice
+# ka.run_model(model_class=LogisticRegression, C=10,
+#              penalty='l2', solver='liblinear', random_state=4)
+# ka.evaluate_model()
+
+ka.run_model(model_class=RandomForestRegressor)
+ka.evaluate_model()
+
+n_estimators = [int(x) for x in np.linspace(start=200, stop=2000, num=10)]
+# Number of features to consider at every split
+max_features = ['auto', 'sqrt']
+# Maximum number of levels in tree
+max_depth = [int(x) for x in np.linspace(10, 110, num=11)]
+max_depth.append(None)
+random_grid = {
+    'n_estimators': n_estimators,
+    'max_features': max_features,
+    'max_depth': max_depth,
+}
+grid_search_results = ka.perform_grid_search(grid=random_grid)
+
+
+results_df = ka.build_results_df()
+results_df.sort_values(by=["overfit", 'training_score',
+                       'Cross Log Mean Score'], ascending=[True, False, False])
+results_df.head(5)

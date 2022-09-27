@@ -1,8 +1,10 @@
 import os
 import pandas as pd
 import pathlib
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score, hamming_loss, accuracy_score, confusion_matrix, f1_score
+from sklearn.model_selection import GridSearchCV, RepeatedKFold, train_test_split, cross_val_score
 from sklearn.multiclass import OneVsRestClassifier
 
 from settings import DATA_DIR
@@ -23,12 +25,16 @@ class AnalyzerBaseClass:
         self.train_filepath = train_filepath
         self.test_filepath = test_filepath
         self.text_field = str()
+        self.all_instance_list = []
 
         self.full_data_path = str()
         self.cleaned = False
         self.cleaning_kwargs = {}
 
         self._load_data()
+
+        # TODO add Naive Bayes
+        self.model_choices = [LogisticRegression, RandomForestRegressor]
 
     def _load_data(self, encoding="ISO-8859-1"):
 
@@ -87,19 +93,11 @@ class AnalyzerBaseClass:
             self.full_data_path, 'train_cleaned.csv')
         self.train.to_csv(cleaned_full_path, index=False)
 
-    @timeit
-    def do_logistic_regression(self, **kwargs):
-        if self.verbose:
-            print("Starting Logistic Regression")
-        log_reg = LogisticRegression(**kwargs)
-        self.model = OneVsRestClassifier(log_reg)
-        self.model.fit(self.X_train, self.y_train)
-
-    def evaluate_model(self, scoring="accuracy"):
+    def evaluate_model(self, cv=5, scoring="accuracy"):
+        overfit = False
         # evaluate
         self.model.score(self.X_train, self.y_train), self.model.score(
             self.X_test, self.y_test)
-        # How can we check how well the model performed? Calculate the accuracy
         # If the training score >> test score then the model is overfitting
         # if training score << mean(validation_scores), you might be underfitting!
         training_score = self.model.score(self.X_train, self.y_train)
@@ -108,33 +106,60 @@ class AnalyzerBaseClass:
         # 1% not such a big deal
         if (training_score * 0.95) > test_score:
             print("On no, Overfit!")
+            overfit = True
         else:
             if training_score > test_score:
                 print("You're close to overfitting but within 5% so we'll let it pass")
-
-        y_train_pred_proba = self.model.predict_proba(self.X_train)
-        y_valid_pred_proba = self.model.predict_proba(self.X_test)
-
-        roc_auc_score_train = roc_auc_score(
-            self.y_train, y_train_pred_proba, average='weighted')
-        roc_auc_score_test = roc_auc_score(
-            self.y_test, y_valid_pred_proba, average='weighted')
-
-        print("ROC AUC Score Train:", roc_auc_score_train)
-        print("ROC AUC Score Test:", roc_auc_score_test)
-        prediction = self.model.predict(self.X_test)
-        print('Accuracy Score: ', accuracy_score(self.y_test, prediction))
-        print('hamming loss : ', hamming_loss(self.y_test, prediction))
-
-    @timeit
-    def do_naive_bayes(self, **kwargs):
-        if self.verbose:
-            print("Starting Naive Bayes")
+        cross_log = cross_val_score(self.model,        # estimator: model that you want to evaluate
+                                    self.X_train,  # training input data
+                                    self.y_train,  # training output data
+                                    cv=cv,     # number of validation datasets, k-folds
+                                    scoring=scoring)  # evaluation metric
+        try:
+            name = f"{self.model.__name__} with {str(self.model_kwargs)}"
+        except AttributeError:
+            name = f"{self.model.__class__.__name__} with {str(self.model_kwargs)}"
+        evaluation_dict = {"Name": name, "Cross Log Mean Score": cross_log.mean(), "Overfit": overfit,
+                           "Training Score": training_score, "Test Score": test_score
+                           }
+        self.all_instance_list.append(evaluation_dict)
 
     @timeit
-    def do_random_forest(self, **kwargs):
+    def perform_grid_search(self, grid, n_splits=10, n_repeats=3, random_state=1, scoring='neg_mean_absolute_error', n_jobs=-1):
+
+        cv = RepeatedKFold(n_splits=n_splits,
+                           n_repeats=n_repeats, random_state=random_state)
+        # define search
+        search = GridSearchCV(
+            self.model, grid, scoring=scoring, cv=cv, n_jobs=n_jobs)
+        # perform the search
+        results = search.fit(self.X_train, self.y_train)
+        # summarize
+        print('Best Score: %.3f' % results.best_score_)
+        print('Best Config: %s' % results.best_params_)
+        return results
+
+    @timeit
+    def run_model(self, model_class, **kwargs):
+        if model_class not in self.model_choices:
+            print(f"Model {model_class.__name__} not recognized")
+            return
+
+        self.model_kwargs = dict(kwargs)
         if self.verbose:
-            print("Starting Random Forest")
+            print(f"Starting run_model wih {model_class.__name__}")
+        if model_class.__name__ == "LogisticRegression":
+            log_reg = LogisticRegression(**kwargs)
+            self.model = OneVsRestClassifier(log_reg)
+        else:
+            self.model = model_class(**kwargs)
+
+        self.model.fit(self.X_train, self.y_train)
+
+    def build_results_df(self):
+        results_data = [(i['name'], i['cross_log_mean'], i['is_overfit'],  i['training_score'],
+                         i['test_score']) for i in self.all_instance_list]
+        return pd.DataFrame(results_data, columns=["Name", "Cross Log Mean Score", "Overfit", "Training Score", "Test Score"])
 
     def text_is_toxic(self, text, model):
         # Don't know if this works
