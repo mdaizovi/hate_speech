@@ -6,6 +6,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score, hamming_loss, accuracy_score, confusion_matrix, f1_score
 from sklearn.model_selection import GridSearchCV, RepeatedKFold, train_test_split, cross_val_score
 from sklearn.multiclass import OneVsRestClassifier
+from sklearn.naive_bayes import MultinomialNB
 
 from settings import DATA_DIR
 from text_processor import TextPreprocessor
@@ -148,6 +149,10 @@ class AnalyzerBaseClass:
         self.model_kwargs = dict(kwargs)
         if self.verbose:
             print(f"Starting run_model wih {model_class.__name__}")
+
+        # NOTE:
+        # Logistic Regression, Perceptron, Support Vector Machines, are binary
+        # So they need OneVsRestClassifier for Kaggle data bvc it has 6 classes
         if model_class.__name__ == "LogisticRegression":
             log_reg = LogisticRegression(**kwargs)
             self.model = OneVsRestClassifier(log_reg)
