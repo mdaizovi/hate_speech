@@ -32,12 +32,12 @@ class KaggleAnalyzer(AnalyzerBaseClass):
         # TODO Do I need TfidfVectorizer for all models? Should i use CountVectorizer? TfidfTransformer?
         vectorizer = TfidfVectorizer(
             analyzer='word', stop_words='english', ngram_range=(1, 3))
-        X = vectorizer.fit_transform(
+        self.X = vectorizer.fit_transform(
             self.train.comment_text.values.astype('U'))
-        y = self.train.drop(['id', 'comment_text'], axis=1)
+        self.y = self.train.drop(['id', 'comment_text'], axis=1)
 
         X_train, X_test, y_train, y_test = train_test_split(
-            X, y, test_size=test_size, random_state=random_state)
+            self.X, self.y, test_size=test_size, random_state=random_state)
         for k, v in {'X_train': X_train, 'X_test': X_test, 'y_train': y_train, 'y_test': y_test}.items():
             setattr(self, k, v)
         if self.verbose:
@@ -47,18 +47,20 @@ class KaggleAnalyzer(AnalyzerBaseClass):
 # from analyzer_kaggle import*
 
 
-ka = KaggleAnalyzer(train_filepath="kaggle/train.csv",
-                    test_filepath="kaggle/test.csv")
-ka.tt_split()
+# ka = KaggleAnalyzer(train_filepath="kaggle/train.csv",
+#                     test_filepath="kaggle/test.csv")
+# ka.tt_split()
 
-ka.run_model(model_class=LogisticRegression)
-ka.evaluate_model()
+# ka.run_model(model_class=LogisticRegression)
+# ka.evaluate_model()
+
+
 # need to to estimator__ bc of  OneVsRestClassifier : https://intellipaat.com/community/8905/gridsearch-for-an-estimator-inside-a-onevsrestclassifier
-param_grid = [
-    {'estimator__C': 10**np.linspace(-3, 3, 20)}
-]
-grid_search_results = ka.perform_grid_search(
-    grid=param_grid, scoring='accuracy')
+# param_grid = [
+#     {'estimator__C': 10**np.linspace(-3, 3, 20)}
+# ]
+# grid_search_results = ka.perform_grid_search(
+#     grid=param_grid, scoring='accuracy')
 
 # why does random forest take a million years?!?
 # I prob don't need to do this twice
@@ -82,15 +84,15 @@ grid_search_results = ka.perform_grid_search(
 # }
 # grid_search_results = ka.perform_grid_search(grid=random_grid)
 
-ka.run_model(model_class=MultinomialNB)
-mnb_d = {"alpha": 0.05}
-ka.run_model(model_class=MultinomialNB, **mnb_d)
+# ka.run_model(model_class=MultinomialNB)
+# mnb_d = {"alpha": 0.05}
+# ka.run_model(model_class=MultinomialNB, **mnb_d)
 
 # # TODO add vectorizer
 # # vectorizer_d={"max_df": 1.0, "min_df": 1, "max_features": None}
 
 
-results_df = ka.build_results_df()
-results_df.sort_values(by=["overfit", 'training_score',
-                       'Cross Log Mean Score'], ascending=[True, False, False])
-results_df.head(5)
+# results_df = ka.build_results_df()
+# results_df.sort_values(by=["overfit", 'training_score',
+#                        'Cross Log Mean Score'], ascending=[True, False, False])
+# results_df.head(5)

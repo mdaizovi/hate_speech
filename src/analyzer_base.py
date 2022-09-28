@@ -94,6 +94,7 @@ class AnalyzerBaseClass:
             self.full_data_path, 'train_cleaned.csv')
         self.train.to_csv(cleaned_full_path, index=False)
 
+    @timeit
     def evaluate_model(self, cv=5, scoring="accuracy"):
         overfit = False
         # evaluate
@@ -166,16 +167,47 @@ class AnalyzerBaseClass:
                          i['test_score']) for i in self.all_instance_list]
         return pd.DataFrame(results_data, columns=["Name", "Cross Log Mean Score", "Overfit", "Training Score", "Test Score"])
 
-    def text_is_toxic(self, text, model):
-        # Don't know if this works
-        text = self.processor.normalize_corpus([text])
-        y_test_pred = model.predict_proba(text)
-        result = sum(y_test_pred[0])
-        if result >= 1:
-            if self.verbose:
-                print(f"Toxic: {result}")
-            return True
-        else:
-            if self.verbose:
-                print(f"Not toxic: {result}")
-            return False
+    def make_pred_array(self, test_str):
+        """
+        input is a string to test , like "I am just a wanderlust king gypsy punk boy ai"
+        output is array of word count dictionaries
+        """
+        def word_count(test_str):
+            counts = dict()
+            words = test_str.split()
+
+            for word in words:
+                if word in counts:
+                    counts[word] += 1
+                else:
+                    counts[word] = 1
+
+            return counts
+
+        word_counts = word_count(test_str)
+        word_array = []
+        for c in self.X.columns:
+            count = word_counts.get(c)
+            if count:
+                word_array.append(count)
+            else:
+                word_array.append(0)
+
+        return word_array
+
+    def get_toxicoty_scores(self, text_dict_list):
+        """
+        text_dict_list is a list of dictionries with {id:text}
+        """
+        for td in text_dict_list:
+            text = self.processor.normalize_corpus([td["text"]])
+            pred_array = self.make_pred_array(text)
+            score = self.model.predict_proba([pred_array]).round(4)
+
+            # modified_score = int(score * 10)  # is 10 too harsh?
+            #modified_score = int(score * 5)
+            #td["score"] = modified_score
+            td["score"] = score
+            # I want score to be an int between 0-10
+            # 5 is already unreadable
+        return text_dict_list
