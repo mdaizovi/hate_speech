@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        {% block head %}
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        {% block styles %}
+            <!-- Bootstrap CSS -->
+            {{ bootstrap.load_css() }}
+        {% endblock %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/album.css') }}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital@1&display=swap" rel="stylesheet">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+        <!-- <link href="https://www.spiced-academy.com/css/main.css" rel="stylesheet"> -->
+
+        <style>
+          p {font-family: "IBM Plex Mono", monospace}
+          h1, h2, h3, h4, .btn {font-family: "Poppins", sans-serif!important}
+          body {margin-top: 30}
+          footer {background-color: #c4839b}
+          .bg-dark {background-color: #efc463!important}
+          main {min-height: 85vh;}
+        </style>
+
+        <title>{% block title %}{% endblock %}</title>
+        {% endblock %}
+    </head>
+    <body>
+        <header>
+            <div class="collapse bg-dark" id="navbarHeader">
+              <div class="container">
+                <div class="row">
+                </div>
+              </div>
+            </div>
+            <div class="navbar navbar-dark bg-dark box-shadow">
+              <div class="container d-flex justify-content-between">
+                <a href="/" class="navbar-brand d-flex align-items-center">
+                  
+               <!-- This is where I'd have an icon -->
+                  <strong style = "font-family: 'Poppins';"> Don't Focus on Hate</strong>
+                </a>
+
+              </div>
+            </div>
+          </header>
+      
+          <main role="main">
+            {% block content %}{% endblock %}
+          </main>
+      
+          <footer style = "left: 0; right: 0; bottom: 0;">
+            <div class="container">
+              <p class="float-right">
+                <a href="#" style = "color: white;">Back to top</a>
+              </p>
+              <p>Check out <a href ="https://www.spiced-academy.com/en" target = "_blank}" style = "color: white;">Spiced Academy</a> to make a 🌶️flaming hot🌶️ final project like this one</p>
+            </div>
+          </footer>
+          
+          {% block scripts %}
+          <!-- Optional JavaScript -->
+          {{ bootstrap.load_js() }}
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block title %}Don't Focus on Hate{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+{% block content %}
+<section class="jumbotron text-center">
+  <div class="container">
+    <h1 class="jumbotron-heading">What is "Hate Speech"?</h1>
+    <hr>
+    <div class="album py-5 bg-light" style = "padding: 2em; position: relative;">
+      <div class="container">
+        <div class="row">
+          <h4>Hate speech is a defined as<sup>1</sup>:</h4>
+          <ul class="list-group" style = "width: 100%;">
+            <li class="list-group-item"><p>deliberate attack</p></li>
+            <li class="list-group-item"><p>directed towards a specific group of people</p></li>
+            <li class="list-group-item"><p>motivated by aspects of the group’s identity</p></li>
+          </ul>
+            <span class="muted-text" style="position: absolute; font-size:60%;
+            bottom: 0;">
+            <sup>1</sup>
+            <i>De Gibert, Ona, et al. <a href = "https://arxiv.org/pdf/1809.04444.pdf">"Hate speech dataset from a white supremacy forum."</a> arXiv preprint arXiv:1809.04444 (2018).
+            </i>
+            </span>
+        </div>
+      </div>
+    </div>
+
+    
+    <p>
+      <a href="/" class="btn btn-primary my-2" style = "background-color: #7fd9e2; border: 1px solid #7fd9e2;">
+        Start
+      </a>
+      {% if next %}
+        <a href="{{ next }}" target="_blank" class="btn btn-secondary my-2" style = " background-color: #3f0097;
+          border: 1px solid #3f0097;">Next
+        </a>
+      {% endif %}
+    </p>
+  </div>
+</section>
+
+  </div>
+</section>
+
+
+
+  
+{% endblock %}

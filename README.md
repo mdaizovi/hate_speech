@@ -26,6 +26,14 @@ Hate speech detector for Spiced Academy Data Science class (ginger-pipeline)
 
 - [Reading List for Hate Speech Research](https://github.com/hate-alert/Hate-Speech-Reading-List)
 
+## Pyscript?!?
+
+- [PyScript: Way to run Python script in web/browser](https://engrmuhammadusman108.medium.com/pyscript-way-to-run-python-in-web-ffa320c29cc0)
+
+- [pyscript](https://pyscript.net/)
+
+- [Getting Started with Pyscript](https://github.com/pyscript/pyscript/blob/main/docs/tutorials/getting-started.md)
+
 ## Further Study
 
 - [Perspective API](https://perspectiveapi.com/)

@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% block title %}Don't Focus on Hate{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+{% block content %}
+<section class="jumbotron text-center">
+  <div class="container">
+    <h1 class="jumbotron-heading">Future</h1>
+    <hr>
+    <div class="album py-5 bg-light" style = "padding: 2em;">
+      <div class="container">
+        <div class="row">
+          <p>
+            This project is neither deployed nor maintained. 
+            If you are interested in having a hate-speech blocking extension, I suggest you try the following:
+          </p>
+          
+          <ul class="list-group" style = "width: 100%;">
+            <li class="list-group-item"><p>
+              <a href ="https://chrome.google.com/webstore/detail/hate-speech-blocker/inmmffkffipkoajnleafijfnboefpkcj?hl=en">
+                Hate Speech Blocker
+              </a></p>
+            </li>
+            <li class="list-group-item"><p>
+              <a href ="https://chrome.google.com/webstore/detail/hate-block/cfdlpekecomochlpnbefnjimidpfmpbk?hl=en">
+              Hate Block</a></p></li>
+            <li class="list-group-item"><p>
+              <a href ="https://chrome.google.com/webstore/detail/wisemonkey/olhcfgfcbkjlonelecchakjnklbjofnc?hl=en">
+              WiseMonkey</a></p></li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <p>
+      <a href="/" class="btn btn-primary my-2" style = "background-color: #7fd9e2; border: 1px solid #7fd9e2;">
+        Start
+      </a>
+      {% if next %}
+        <a href="{{ next }}" target="_blank" class="btn btn-secondary my-2" style = " background-color: #3f0097;
+          border: 1px solid #3f0097;">Next
+        </a>
+      {% endif %}
+    </p>
+  </div>
+</section>
+
+  </div>
+</section>
+
+
+
+  
+{% endblock %}
