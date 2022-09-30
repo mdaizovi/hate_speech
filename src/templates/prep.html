@@ -1,0 +1,113 @@
+{% extends "layout.html" %}
+{% block title %}Don't Focus on Hate{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+{% block content %}
+<section class="jumbotron text-center">
+  <div class="container">
+    <h1 class="jumbotron-heading">Data Preparation</h1>
+    <hr>
+
+    <div class="album py-5 bg-light" style = "padding: 2em;">
+      <div class="container">
+        <h4>Contractions were expanded using the library `contractions`</h4>
+        <div class="row">
+          <ul class="list-group" style = "width: 100%;">
+            <li class="list-group-item">
+              <p>Input: I'm just a poor boy nobody loves me. He's just a poor boy from a poor family</p>
+            </li>
+            <li class="list-group-item">
+              <p>Output: I am just a poor boy nobody loves me. He is just a poor boy from a poor family</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="album py-5 bg-light" style = "padding: 2em;">
+      <div class="container">
+        <h4>Special characters were removed</h4>
+        <div class="row">
+          <ul class="list-group" style = "width: 100%;">
+            <li class="list-group-item">
+              <p>Input: Thunderbolts and ⚡ very, very  😱 me</p>
+            </li>
+            <li class="list-group-item">
+              <p>Output: Thunderbolts and  very very  me</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="album py-5 bg-light" style = "padding: 2em;">
+      <div class="container">
+        <h4>Accented characters were removed</h4>
+        <div class="row">
+          <ul class="list-group" style = "width: 100%;">
+            <li class="list-group-item">
+              <p>Input: Scáramöuch, Scâramoùch, will you dö the Fandañgo!</p>
+            </li>
+            <li class="list-group-item">
+              <p>Output: Scaramouch, Scaramouch, will you do the Fandango!</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="album py-5 bg-light" style = "padding: 2em;">
+      <div class="container">
+        <h4>Text was lemmatizated, a process in which word affixes are removed to get to the
+          base form of a word (`spacy` library)</h4>
+        <div class="row">
+          <ul class="list-group" style = "width: 100%;">
+            <li class="list-group-item">
+              <p>Input: Mamaaa, life had just begun, But now I've gone and thrown it all away</p>
+            </li>
+            <li class="list-group-item">
+              <p>Output: mamaaa , life have just begin , but now I've go and throw it all away</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="album py-5 bg-light" style = "padding: 2em;">
+      <div class="container">
+        <h4>Stopwords (words with little significance on their own) were removed (`nltk` library)</h4>
+        <div class="row">
+          <ul class="list-group" style = "width: 100%;">
+            <li class="list-group-item">
+              <p>Input: Is this the real life? Is this just fantasy?</p>
+            </li>
+            <li class="list-group-item">
+              <p>Output: real life ? fantasy ?</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <p>
+      <a href="/" class="btn btn-primary my-2" style = "background-color: #7fd9e2; border: 1px solid #7fd9e2;">
+        Start
+      </a>
+      {% if next %}
+        <a href="{{ next }}" target="_blank" class="btn btn-secondary my-2" style = " background-color: #3f0097;
+          border: 1px solid #3f0097;">Next
+        </a>
+      {% endif %}
+    </p>
+  </div>
+</section>
+
+  </div>
+</section>
+
+
+
+  
+{% endblock %}

@@ -29,13 +29,18 @@ def index():
 
 
 @app.route('/definition')
-def definiiton_view():
+def definition_view():
     return render_template('definition.html', next="/dataset")
 
 
 @app.route('/dataset')
 def dataset_view():
-    return render_template('dataset.html', next="/models")
+    return render_template('dataset.html', next="/prep")
+
+
+@app.route('/prep')
+def prep_view():
+    return render_template('prep.html', next="/models")
 
 
 @app.route('/models')
