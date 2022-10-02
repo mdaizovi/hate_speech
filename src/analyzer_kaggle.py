@@ -5,6 +5,7 @@ from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
+from sklearn.multiclass import OneVsRestClassifier
 from sklearn.naive_bayes import MultinomialNB
 
 from settings import DATA_DIR
@@ -12,8 +13,9 @@ from analyzer_base import AnalyzerBaseClass
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 """
-Base Class for analyzing tezt.
-Analyzers for specific datasets will inherit and subclass as necessary. 
+Analyzes Kaggle Dataset with One vs Rest classifier. Takes forever.
+Logistic Regression takes 10 mins and get 90 or 91, 
+I don't even know any other models bc after 2 hours I stop it.
 """
 
 
@@ -24,9 +26,6 @@ class KaggleAnalyzer(AnalyzerBaseClass):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.text_field = 'comment_text'
-
-    def prepare_data(self):
-        pass
 
     def tt_split(self, test_size=0.2, random_state=1):
         # TODO Do I need TfidfVectorizer for all models? Should i use CountVectorizer? TfidfTransformer?
@@ -43,6 +42,26 @@ class KaggleAnalyzer(AnalyzerBaseClass):
         if self.verbose:
             print("Train and Test split")
 
+    @timeit
+    def run_model(self, model_class, **kwargs):
+        if model_class not in self.model_choices:
+            print(f"Model {model_class.__name__} not recognized")
+            return
+
+        self.model_kwargs = dict(kwargs)
+        if self.verbose:
+            print(f"Starting run_model wih {model_class.__name__}")
+
+        # NOTE:
+        # Logistic Regression, Perceptron, Support Vector Machines, are binary
+        # So they need OneVsRestClassifier for Kaggle data bvc it has 6 classes
+        if model_class.__name__ == "LogisticRegression":
+            log_reg = LogisticRegression(**kwargs)
+            self.model = OneVsRestClassifier(log_reg)
+        else:
+            self.model = model_class(**kwargs)
+
+        self.model.fit(self.X_train, self.y_train)
 
 # from analyzer_kaggle import*
 
