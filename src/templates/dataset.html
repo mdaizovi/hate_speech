@@ -8,12 +8,31 @@
 <section class="jumbotron text-center">
   <div class="container">
     <h1 class="jumbotron-heading">Dataset</h1>
-
     <hr>
     <div class="album py-5 bg-light" style = "padding: 2em;">
       <div class="container">
         <div class="row">
-
+          <p>
+            The data from this project was taken from Kaggle's 
+            <a href = "https://www.kaggle.com/competitions/jigsaw-toxic-comment-classification-challenge/overview">Toxic Comment Classification Challenge</a>.
+          </p>
+          <p>
+            In this dataset, 159,571 Wikipedia comments were labeled by human raters for toxic behavior and split into the following non-exclusive categories:
+          </p>
+          <ul class="list-group" style = "width: 100%;">
+            <li class="list-group-item">toxic</li>
+            <li class="list-group-item">severe_toxic</li>
+            <li class="list-group-item">obscene</li>
+            <li class="list-group-item">threat</li>
+            <li class="list-group-item">insult</li>
+            <li class="list-group-item">identity_hate</li>
+          </ul>
+          <p>
+          <br>
+           To be consistent with the definiton of "Hate Speech", a single cetegory was created from severe_toxic and identity_hate.
+           <br>
+           Comments that were only toxic, obscene, threat, or insult were treated as neutral, non-flagged speech.
+          </p>
         </div>
       </div>
     </div>

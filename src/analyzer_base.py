@@ -32,10 +32,24 @@ class AnalyzerBaseClass:
         self.cleaned = False
         self.cleaning_kwargs = {}
 
+        self._build_subjective_test_df()
         self._load_data()
 
         # TODO add Naive Bayes
-        self.model_choices = [LogisticRegression, RandomForestRegressor]
+        self.model_choices = [LogisticRegression, MultinomialNB, RandomForestRegressor]
+
+    def _build_subjective_test_df(self):
+        test_columns=["id","comment_text"]
+        test_data = [[1, "i love you"], [2, "fuck you you fucking fuck"], [3, "fucking die shit cock nigger dyke"],
+            [4, "I fucking love the shit out of you"], [5, "My favorite roller skating move is called shoot the duck"],
+            [6, "Mexican food is delicious"], [7, "I just took a DNA test, turns out I'm 100% that bitch"],
+            [8, "You look fucking fabulous, you magnificent hot-ass bitch"],
+            [9, "The former president is a fat idiot who should rot in prison"], [10, "I'm gonna fucking shoot you in the face"],
+            [11, "Yeah, you fucking with some wet ass pussy\nBring a bucket and a mop for this wet ass pussy\nGive me everything you got for this wet ass pussy\nBeat it up, nigga, catch a charge"],
+            [12, "fuck die shit cock nigger dyke"]
+        ]
+        self.test_df = pd.DataFrame(data = test_data, columns=test_columns)
+
 
     def _load_data(self, encoding="ISO-8859-1"):
 

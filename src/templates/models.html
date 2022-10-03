@@ -15,6 +15,38 @@
         <div class="row">
           <h3>Models and Scores</h3>
 
+          <div class="table-responsive table-striped">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  <th>Train</th>
+                  <th>Test</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>LogisticRegression</td>
+                  <td>0.99</td>
+                  <td>0.99</td>
+                  <td>False positive with obscenity-laden flattery. Otherwise great.</td>
+                </tr>
+                <tr>
+                  <td>RandomForestRegressor</td>
+                  <td>X</td>
+                  <td>X</td>
+                  <td>Takes a very long time to run</td>
+                </tr>
+                <tr>
+                  <td>MultinomialNB</td>
+                  <td>0.98</td>
+                  <td>0.98</td>
+                  <td>Informal testing shows surprisingly low scores for very hateful language.</td>
+                </tr>
+              </tbody>                        
+            </table>
+          </div>
         </div>
       </div>
     </div>

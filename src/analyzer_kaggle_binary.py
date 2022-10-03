@@ -76,12 +76,11 @@ class KaggleBinaryAnalyzer(AnalyzerBaseClass):
         X_test = df[self.text_field]
 
         X_vector = self.tfidf_vectorizer.transform(X_test)
-        #y_predict = self.model.predict(X_vector)
         y_prob = self.model.predict_proba(X_vector)[:, 1]
         df['score'] = y_prob
-        # df['blockable'] = y_predict #unnecessary
-        print(df.head())
-
+        y_predict = self.model.predict(X_vector)
+        df['blockable'] = y_predict # unnecessary ? 
+        df.set_index('id', inplace=True)
         return df
 
 
@@ -96,6 +95,9 @@ class KaggleBinaryAnalyzer(AnalyzerBaseClass):
 # ka.run_model(model_class=LogisticRegression)
 # ka.evaluate_model(cv=5, scoring="accuracy") # just plain LR gets me
 #   # train: 0.9864636209813875, test: 0.99
+
+#test = ka.predict_unlabeled_df(test_df)
+
 
 # test_columns=["id","comment_text"]
 # test_data = [[1, "i love you"], [2, "fuck you you fcking fuck"], [3, "fucking die shit cock nigger dyke"]]
