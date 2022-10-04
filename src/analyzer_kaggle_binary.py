@@ -84,22 +84,17 @@ class KaggleBinaryAnalyzer(AnalyzerBaseClass):
         return df
 
 
-# from analyzer_kaggle_binary import*
+#from analyzer_kaggle_binary import*
 # ka = KaggleBinaryAnalyzer(train_filepath="kaggle_binary/train.csv",
 #                     test_filepath="kaggle_binary/test.csv")
 # ka.tt_split()
 # ka.vectorize()
 
-# ka.run_model(model_class=LogisticRegression, solver = 'liblinear', C=10, penalty = 'l2')
+# ka.run_model(model_class=RandomForestRegressor)
 # or
 # ka.run_model(model_class=LogisticRegression)
 # ka.evaluate_model(cv=5, scoring="accuracy") # just plain LR gets me
 #   # train: 0.9864636209813875, test: 0.99
 
-#test = ka.predict_unlabeled_df(test_df)
-
-
-# test_columns=["id","comment_text"]
-# test_data = [[1, "i love you"], [2, "fuck you you fcking fuck"], [3, "fucking die shit cock nigger dyke"]]
-# test_df = pd.DataFrame(data = test_data, columns=test_columns)
-# test = ka.predict_unlabeled_df(test_df)
+# test = ka.predict_unlabeled_df(ka.test_df)
+# test.head(12)

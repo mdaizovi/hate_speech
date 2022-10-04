@@ -2,8 +2,6 @@ from flask import Flask, request, jsonify, render_template
 from flask_bootstrap import Bootstrap, Bootstrap4
 from flask_cors import CORS
 
-import random
-
 from analyzer_kaggle_binary import*
 ka = KaggleBinaryAnalyzer(train_filepath="kaggle_binary/train.csv",
                           test_filepath="kaggle_binary/test.csv")
