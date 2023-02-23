@@ -1,4 +1,4 @@
-Hate speech detector for Spiced Academy Data Science class (ginger-pipeline)
+Hate speech detector for Spiced Academy Data Science class (ginger-pipeline). This repo is the Backend, which must be running (either locally or deployed) or order for the browser extension to work. Please see the the [Browser Extension repo](https://github.com/mdaizovi/browser-extension) for instructions
 
 ## Datasets
 
@@ -25,14 +25,6 @@ Hate speech detector for Spiced Academy Data Science class (ginger-pipeline)
 - [Text Wrangling & Pre-processing: A Practitioner’s Guide to NLP](https://www.kdnuggets.com/2018/08/practitioners-guide-processing-understanding-text-2.html)
 
 - [Reading List for Hate Speech Research](https://github.com/hate-alert/Hate-Speech-Reading-List)
-
-## Pyscript?!?
-
-- [PyScript: Way to run Python script in web/browser](https://engrmuhammadusman108.medium.com/pyscript-way-to-run-python-in-web-ffa320c29cc0)
-
-- [pyscript](https://pyscript.net/)
-
-- [Getting Started with Pyscript](https://github.com/pyscript/pyscript/blob/main/docs/tutorials/getting-started.md)
 
 ## Further Study
 
